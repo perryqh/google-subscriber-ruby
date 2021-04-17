@@ -13,3 +13,4 @@ gem 'pronto-flay', require: false
 gem 'pronto-rails_best_practices', require: false
 gem 'pronto-rubocop', require: false
 gem 'colorize'
+gem 'byebug'
