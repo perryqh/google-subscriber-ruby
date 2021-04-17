@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe GoogleSubscriber::SubscriberRegistry do
   class TestSubscriber < GoogleSubscriber::BaseSubscriber
-    subscriber_name 'test'
+    subscription_id 'test'
   end
 
   describe '#register_subscriber' do
@@ -10,6 +10,7 @@ RSpec.describe GoogleSubscriber::SubscriberRegistry do
       GoogleSubscriber.registry.clear
       GoogleSubscriber.register_subscriber(TestSubscriber)
     end
+
     it 'adds to registry' do
       expect(GoogleSubscriber.registry).to eq([TestSubscriber])
     end
@@ -18,6 +19,7 @@ RSpec.describe GoogleSubscriber::SubscriberRegistry do
       before do
         allow(TestSubscriber).to receive(:start)
       end
+
       it 'starts registered subscribers' do
         GoogleSubscriber.start_subscribers
         expect(TestSubscriber).to have_received(:start)
@@ -26,7 +28,9 @@ RSpec.describe GoogleSubscriber::SubscriberRegistry do
 
     describe '#load_subscribers' do
       before do
-        GoogleSubscriber.subscriber_paths << File.expand_path(File.join(File.dirname(__FILE__), '../..', 'fixtures/subscribers'))
+        GoogleSubscriber.subscriber_paths << File.expand_path(
+          File.join(
+            File.dirname(__FILE__), '../../fixtures/subscribers'))
       end
 
       it 'requires files in subscriber_paths' do

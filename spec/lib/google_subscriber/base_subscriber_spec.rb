@@ -3,16 +3,26 @@ require 'spec_helper'
 RSpec.describe GoogleSubscriber::BaseSubscriber do
   class TestClass < GoogleSubscriber::BaseSubscriber
     attr_reader :received_message
-    subscriber_name :foo
+    subscription_id :foo
+    subscription_credentials '/path/to/cred/file'
+    subscription_project_id 'my-gcp-project'
 
     def on_received_message(received_message)
       @received_message = received_message
     end
   end
 
-  subject { TestClass }
+  subject(:base_subscriber) { TestClass }
 
-  it 'sets the subscriber_name' do
-    expect(subject.base_subscriber_name).to eq(:foo)
+  it 'sets the subscription id' do
+    expect(base_subscriber.g_subscription_id).to eq(:foo)
+  end
+
+  it 'sets the subscription credentials' do
+    expect(base_subscriber.g_credentials).to eq('/path/to/cred/file')
+  end
+
+  it 'sets the subscription project id' do
+    expect(base_subscriber.g_project_id).to eq('my-gcp-project')
   end
 end

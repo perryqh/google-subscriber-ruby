@@ -1,18 +1,21 @@
 module GoogleSubscriber
   class BaseSubscriber
     class << self
-      attr_reader :base_subscriber_name
+      attr_reader :g_subscription_id, :g_credentials, :g_project_id
 
-      # Macro for specifying the subscriber name.
-      # Naming convention:
-      # subscriber_env_name = ENV["SUBSCRIPTION_#{subscriber_name}_ID"]
-      # credential_env_name = ENV["SUBSCRIPTION_#{subscriber_name}_CREDENTIALS"]
-      # project_id_env_name = ENV["SUBSCRIPTION_#{subscriber_name}_PROJECT_ID"]
-      #
-      # @param [String] name The subscriber name
-      def subscriber_name(name)
-        @base_subscriber_name = name
+      # Macro for specifying the subscription_id
+      # @param [String] subscription_id The subscription-id
+      def subscription_id(subscription_id)
+        @g_subscription_id = subscription_id
         GoogleSubscriber.register_subscriber(self)
+      end
+
+      def subscription_credentials(creds)
+        @g_credentials = creds
+      end
+
+      def subscription_project_id(project_id)
+        @g_project_id = project_id
       end
     end
   end
