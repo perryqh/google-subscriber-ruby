@@ -1,15 +1,13 @@
-# Google::Subscriber
+# GoogleSubscriber
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/google/subscriber`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+GoogleSubscribers discovers your ruby google pub/sub subscribers and provides a rake task for starting them
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'google_subscriber-subscriber'
+gem 'google-subscriber
 ```
 
 And then execute:
@@ -32,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/google-subscriber.
+Bug reports and pull requests are welcome on GitHub at https://github.com/perryqh/google-subscriber-ruby
 
 
 ## License
