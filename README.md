@@ -20,7 +20,43 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Add a google_subscriber.rb file to in your `Rails.root/config/initializers/` directory
+```ruby
+require 'google_subscriber'
+GoogleSubscriber.configure do |config|
+  # config.subscriber_paths += %W( #{Rails.root}/app/subscribers ) # if you have subscribers
+  config.logger = Rails.logger
+end
+```
+#### Subscribers
+1. add Subscribers to Rails.root/app/subscribers
+1. Subscribers should inherit from `GoogleSubscriber::BaseSubscriber`
+1. Subscriber class should call `subscription_id` macro with valid subscription_id
+1. Subscriber class should call `subscription_credentials` macro with valid subscription_credentials
+1. Subscriber class should call `subscription_project_id` macro with valid subscription_project_id
+1. Subscriber class should implement `on_received_message`. 
+1. Subscribers can be kicked off with `rake google_subscriber:start_subscribers`
+
+Example:
+```ruby
+class FooSubscriber < GoogleSubscriber::BaseSubscriber
+  subscription_id 'my-subscription-id'
+  subscription_credentials '/path/to/cred/file'
+  # subscription_credentials or_actual_creds_json.to_json
+  subscription_project_id 'my-gcp-project'
+  subscription_listen_args({ threads: { callback: 16 } })
+  
+  # @param [Class: Google::Cloud::PubSub::ReceivedMessage] _received_message The received_message
+  def on_received_message(received_message)
+    # do something exciting with received_message
+    message.acknowledge!
+  end
+end
+```
+
+If the log-level is set to `DEBUG`, log messages such as "the service ws unable to fulfill your request" could show up. It seems
+this is an internal transient error. Subsequent retries succeed.
+
 
 ## Development
 
