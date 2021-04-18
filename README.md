@@ -40,11 +40,13 @@ end
 Example:
 ```ruby
 class FooSubscriber < GoogleSubscriber::BaseSubscriber
-  subscription_id 'my-subscription-id'
+  subscription_id 'my-subscription-id' # https://cloud.google.com/pubsub/docs/pull#ruby
+  subscription_listen_args({ threads: { callback: 16 } }) # https://googleapis.dev/ruby/google-cloud-pubsub/latest/Google/Cloud/PubSub/Subscription.html#listen-instance_method
+
+  # https://cloud.google.com/docs/authentication/production#auth-cloud-implicit-ruby
   subscription_credentials '/path/to/cred/file'
   # subscription_credentials or_actual_creds_json.to_json
   subscription_project_id 'my-gcp-project'
-  subscription_listen_args({ threads: { callback: 16 } })
   
   # @param [Class: Google::Cloud::PubSub::ReceivedMessage] received_message The received_message
   def on_received_message(received_message)
