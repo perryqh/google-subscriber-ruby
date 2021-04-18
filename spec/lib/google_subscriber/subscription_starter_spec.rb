@@ -32,19 +32,26 @@ RSpec.describe GoogleSubscriber::SubscriptionStarter do
       expect(subscription).to have_received(:listen).with({ threads: { callback: 16 } })
     end
 
-    # context 'when Rails and ActiveRecord  defined' do
-    #   class Rails; end
-    #   module ActiveRecord; end
-    #   class ActiveRecord::Base; end
-    #
-    #   before do
-    #     Rails.stub_chain(:application, :reloader, :wrap).and_yield
-    #     ActiveRecord::Base.stub_chain(:connection_pool, :with_connection).and_yield
-    #   end
-    #
-    #   it 'calls subscriber.on_received_message' do
-    #     expect(subscriber_instance.received_messages).to eq([received_message])
-    #   end
-    # end
+  #   context 'when Rails and ActiveRecord  defined' do
+  #     after do
+  #       Object.send(:remove_const, :Rails)
+  #       ActiveRecord.send(:remove_const, :Base)
+  #       Object.send(:remove_const, :ActiveRecord)
+  #     end
+  #
+  #     before do
+  #       Object.const_set('Rails', Class.new)
+  #       Rails = eval('Rails')
+  #       Rails.stub_chain(:application, :reloader, :wrap).and_yield
+  #       Object.const_set('ActiveRecord', Module.new)
+  #       ActiveRecord = eval('ActiveRecord')
+  #       ActiveRecord.const_set('Base', Class.new)
+  #       ActiveRecord::Base.stub_chain(:connection_pool, :with_connection).and_yield
+  #     end
+  #
+  #     it 'calls subscriber.on_received_message' do
+  #       expect(subscriber_instance.received_messages).to eq([received_message])
+  #     end
+  #   end
   end
 end
