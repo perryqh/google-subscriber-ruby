@@ -8,7 +8,8 @@ class FooSubscriber < GoogleSubscriber::BaseSubscriber
   attr_reader :received_messages
 
   def on_received_message(message)
-    process(message)
-    message.acknowledge!
+    @received_messages ||= []
+    received_messages << message
+    # message.acknowledge!
   end
 end
