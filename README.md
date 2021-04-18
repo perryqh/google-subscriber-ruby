@@ -7,7 +7,7 @@ GoogleSubscribers discovers your ruby google pub/sub subscribers and provides a 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'google-subscriber
+gem 'google-subscriber'
 ```
 
 And then execute:
@@ -46,7 +46,7 @@ class FooSubscriber < GoogleSubscriber::BaseSubscriber
   subscription_project_id 'my-gcp-project'
   subscription_listen_args({ threads: { callback: 16 } })
   
-  # @param [Class: Google::Cloud::PubSub::ReceivedMessage] _received_message The received_message
+  # @param [Class: Google::Cloud::PubSub::ReceivedMessage] received_message The received_message
   def on_received_message(received_message)
     # do something exciting with received_message
     message.acknowledge!
