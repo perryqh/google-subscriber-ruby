@@ -32,13 +32,15 @@ module GoogleSubscriber
     end
 
     def build_listen_args
-      DEFAULT_SUBSCRIPTION_LISTEN_ARGS.merge(g_subscription_listen_args || {})
+      DEFAULT_SUBSCRIPTION_LISTEN_ARGS
+        .merge(GoogleSubscriber.subscription_listen_args || {})
+        .merge(g_subscription_listen_args || {})
     end
 
     def create_subscription
       raise ArgumentError, 'subscription_id is required!' if g_subscription_id.nil?
 
-      GoogleSubscriber::PubSubFactory.new_pub_sub(g_project_id, g_credentials)
+      GoogleSubscriber::PubSubFactory.new_pub_sub(project_id: g_project_id, credentials: g_credentials)
                                      .subscription(g_subscription_id&.to_s)
     end
   end

@@ -1,8 +1,9 @@
 require 'logger'
 
 module GoogleSubscriber
-  module Logging
+  module Configuration
     attr_writer :logger
+    attr_accessor :google_credentials, :google_project_id, :subscription_listen_args
 
     # Returns the logger
     # You can define the logger when you configure +GoogleSubscriber+ if you want to use a different logger than the default Ruby Logger.
@@ -15,5 +16,5 @@ module GoogleSubscriber
 end
 
 module GRPC
-  extend GoogleSubscriber::Logging
+  extend GoogleSubscriber::Configuration
 end

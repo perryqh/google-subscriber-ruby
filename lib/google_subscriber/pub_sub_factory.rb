@@ -2,7 +2,9 @@ require "google/cloud/pubsub"
 
 module GoogleSubscriber
   module PubSubFactory
-    def self.new_pub_sub(project_id, credentials)
+    def self.new_pub_sub(project_id:, credentials:)
+      project_id = GoogleSubscriber.google_project_id if blank?(project_id)
+      credentials = GoogleSubscriber.google_credentials if blank?(credentials)
       raise ArgumentError, 'subscription_project_id is required!' if blank?(project_id)
       raise ArgumentError, 'subscription_credentials are required!' if blank?(credentials)
 

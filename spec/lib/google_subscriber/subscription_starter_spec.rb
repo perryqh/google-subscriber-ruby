@@ -9,8 +9,12 @@ RSpec.describe GoogleSubscriber::SubscriptionStarter do
     let(:subscription) { instance_double(Google::Cloud::PubSub::Subscription) }
     let(:pub_sub_subscriber) { instance_double(Google::Cloud::PubSub::Subscriber) }
     let(:received_message) { instance_double(Google::Cloud::PubSub::ReceivedMessage) }
+    let(:global_subscription_listen_args) {nil}
 
     before do
+      GoogleSubscriber.configure do |config|
+        config.subscription_listen_args = global_subscription_listen_args
+      end
       allow(GoogleSubscriber::PubSubFactory).to receive(:new_pub_sub).and_return(pub_sub)
       allow(pub_sub).to receive(:subscription).and_return(subscription)
       allow(subscription).to receive(:listen).and_yield(received_message).and_return(pub_sub_subscriber)
@@ -30,6 +34,16 @@ RSpec.describe GoogleSubscriber::SubscriptionStarter do
 
     it 'listens with provided listen args' do
       expect(subscription).to have_received(:listen).with({ threads: { callback: 16 } })
+    end
+
+    context 'when global listen args are set' do
+      let(:global_subscription_listen_args) do
+        { deadline: 100 }
+      end
+
+      it 'listens with provided listen args' do
+        expect(subscription).to have_received(:listen).with({ deadline: 100, threads: { callback: 16 } })
+      end
     end
 
     # context 'when Rails and ActiveRecord  defined' do
