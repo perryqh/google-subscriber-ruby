@@ -26,6 +26,9 @@ require 'google_subscriber'
 GoogleSubscriber.configure do |config|
   config.subscriber_paths += %W( #{Rails.root}/app/subscribers ) 
   config.logger = Rails.logger
+  # https://cloud.google.com/docs/authentication/production#auth-cloud-implicit-ruby
+  config.google_credentials = '/path/to/cred/file.json' # or File.read('/path/to/cred/file.json')
+  config.google_project_id = 'my-gcp-project-id'
 end
 ```
 #### Subscribers
@@ -42,10 +45,12 @@ Example:
 class FooSubscriber < GoogleSubscriber::BaseSubscriber
   subscription_id 'my-subscription-id' # https://cloud.google.com/pubsub/docs/pull#ruby
   subscription_listen_args({ threads: { callback: 16 } }) # https://googleapis.dev/ruby/google-cloud-pubsub/latest/Google/Cloud/PubSub/Subscription.html#listen-instance_method
+  
+  # optionally override config.google_credentials
+  # subscription_credentials '/path/to/cred/file.json' # or File.read('/path/to/cred/file.json')
 
-  # https://cloud.google.com/docs/authentication/production#auth-cloud-implicit-ruby
-  subscription_credentials '/path/to/cred/file.json' # or File.read('/path/to/cred/file.json')
-  subscription_project_id 'my-gcp-project-id'
+  # optionally override config.subscription_project_id
+  # subscription_project_id 'my-gcp-project-id'
   
   # @param [Class: Google::Cloud::PubSub::ReceivedMessage] received_message The received_message
   def on_received_message(received_message)
