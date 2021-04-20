@@ -1,4 +1,4 @@
-require 'google_subscriber'
+require 'google-subscriber'
 require 'rails'
 
 module GoogleSubscriber

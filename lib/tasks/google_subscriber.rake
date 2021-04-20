@@ -1,4 +1,4 @@
-require 'google_subscriber'
+require 'google-subscriber'
 
 namespace :google_subscriber do
   desc 'start pub/sub subscribers'
